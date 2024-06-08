@@ -20,41 +20,39 @@
                 </div>
             </div>
         </td>
-        <td class="job-list-favourite-time text-center">
+        <td class="job-list-favourite-time text-center" v-if="$route.name == 'AllJobs'">
+            <template v-if="isFavorited(props.job.id)">
+                <a class="job-list-favourite order-2 icon-star" :id="`star-${props.job.id}`"  @click="addToFav('remove',props.job.id)" href="javascript:void(0)">
+                <FontAwesomeIcon class="active my-fav" :icon="faFileSolid" />
+                </a>
+            </template>
+            <template v-else>
+                <a class="job-list-favourite order-2 icon-star" :id="`star-${props.job.id}`" @click="addToFav('add',props.job.id)" href="javascript:void(0)">
+                <FontAwesomeIcon :icon="faFileRegular" />
+                </a>
+            </template>
             
-            <a class="job-list-favourite order-2 icon-star" :id="`star-${props.job.id}`" @click="addToFav(props.job.id)" href="javascript:void(0)">
-                <FontAwesomeIcon v-if="isInclude(props.job.id)" :icon="faFileRegular"  />
-                <FontAwesomeIcon v-else :icon="faFileSolid"  />
-            </a>
         </td>
     </tr>
 </template>
 
+
 <script setup>
-import { faStar as faFileSolid } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faStar as faFileSolid } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faStar as faFileRegular } from '@fortawesome/free-regular-svg-icons';
-
 import { useStore } from "vuex";
-import { ref } from "vue";
-const props = defineProps(["job","favJob"]);
+
+const props = defineProps(["job", "favJob"]);
 const store = useStore();
-function addToFav(jobId) {
-    store.dispatch("addToFavJob", jobId);
+
+function addToFav(type,jobId) {
+  type == 'add' ? store.dispatch("addToFavJob", jobId) : store.dispatch("removeFromFavJob", jobId);
 }
 
-async function isInclude(jobId) {
-    let favJobList = store.getters.favJobs;
-    if (favJobList.length) {
-         let ans = favJobList.some(job => job.id == jobId)
-        console.log(ans)
-        if (ans){
-            return true
-        } else {
-            return false
-        }
-    } else {
-        return false;
-    }
+
+function isFavorited(jobId) {
+  return store.getters.favJobs.some(job => job.id === jobId);
 }
+
 </script>

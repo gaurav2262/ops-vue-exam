@@ -1,7 +1,6 @@
 <template>
     <div class="container py-5">
         <div class="p-5 bg-white rounded shadow mb-5">
-            <h2 class="text-center mb-5"> Find Your Job</h2>
             <!-- Bordered tabs-->
             <TabTitle></TabTitle>
             <div id="myTab1Content" class="tab-content">
@@ -13,7 +12,7 @@
                                     <div class="table manage-job-top mb-0">
                                         <div class="container">
                                             <div class="my-4">
-                                                <router-link to="/all-jobs"  class="btn btn-secondary">BAck</router-link>
+                                                <router-link to="/all-jobs"  class="text-secondary text-decoration-none"><FontAwesomeIcon :icon="homeIcon" /> Back</router-link>
                                                 <div class="">
                                                     <img class="" :src="jobDetails.companyLogo" alt="{{jobDetails.title}}">
                                                 </div>
@@ -61,20 +60,24 @@
 <script>
 import axios from 'axios'
 import TabTitle from "../components/TabTitle.vue";
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
     props: ['id'],
     components: {
         TabTitle,
+        FontAwesomeIcon,
     },
     data() {
         return {
+            homeIcon: '',
             jobDetails: [],
         }
     },
     async mounted() {
         const mData = this.id;
-        console.log('mData',mData)
+        this.homeIcon = faHome;
         this.jobDetails = await axios.get('/jobs/' + mData).then((response) => {
             return response.data;
         })

@@ -1,7 +1,6 @@
 <template>
     <div class="container py-5">
         <div class="p-5 bg-white rounded shadow mb-5">
-            <h2 class="text-center mb-5"> Find Your Job</h2>
             <!-- Bordered tabs-->
             <TabTitle></TabTitle>
             <div id="myTab1Content" class="tab-content">
@@ -13,7 +12,7 @@
                                     <table class="table manage-job-top mb-0">
                                         <tbody>
                                             <div v-if="allFavJobsList.length> 0">
-                                                <JobList v-for="job in allFavJobsList" :key="job.id" :job="job" :store="store" ></JobList>
+                                                <JobList v-for="job in allFavJobsList" :key="job.id" :job="job" ></JobList>
                                             </div>
                                             <div v-else  class="text-center">
                                                 No Favorite selected.

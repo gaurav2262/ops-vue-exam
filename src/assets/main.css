@@ -298,3 +298,6 @@ body {
     flex-wrap: wrap;
   }
 }
+.active.my-fav {
+  color: #ffe518;
+}

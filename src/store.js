@@ -17,6 +17,12 @@ const store = createStore({
         setJobDetails(state, data) {
             state.jobDetails = data;
         },
+        addToFavJob(state, job) {
+            state.favJobs.push(job);
+        },
+        removeFromFavJob(state, jobId) {
+            state.favJobs = state.favJobs.filter(job => job.id !== jobId);
+        },
     },
     actions: {
         async fetchAllJobs({ commit }) {
@@ -31,17 +37,22 @@ const store = createStore({
                 commit('setJobDetails', response.data);
             });
         },
-        async addToFavJob({ commit, state }, jobId) {
-            const selData = await state.allJobs.filter(job => {
-                return job.id == jobId
-            });
-            let myFavJob = state.favJobs;
-            if (myFavJob.indexOf(selData[0]) != -1) {
-                myFavJob.splice(myFavJob.indexOf(selData[0]), 1)
-            } else {
-                myFavJob.push(selData[0]);
+        addToFavJob({ commit, state }, jobId) {
+            const selData = state.allJobs.find(job => job.id === jobId);
+            if (selData) {
+                commit("addToFavJob", selData);
+                localStorage.setItem('favoriteJobs', JSON.stringify(state.favJobs));
             }
-            commit("setFavJobs", myFavJob);
+        },
+        removeFromFavJob({ commit, state }, jobId) {
+            commit("removeFromFavJob", jobId);
+            localStorage.setItem('favoriteJobs', JSON.stringify(state.favJobs));
+        },
+        initializeFavJobs({ commit }) {
+            const storedFavoriteJobs = localStorage.getItem('favoriteJobs');
+            if (storedFavoriteJobs) {
+                commit('setFavJobs', JSON.parse(storedFavoriteJobs));
+            }
         },
     },
     getters: {
@@ -56,4 +67,5 @@ const store = createStore({
         },
     }
 })
+store.dispatch('initializeFavJobs');
 export default store;
