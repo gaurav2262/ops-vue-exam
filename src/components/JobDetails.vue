@@ -13,24 +13,24 @@
                                         <div class="container">
                                             <div class="my-4">
                                                 <router-link to="/all-jobs"  class="text-secondary text-decoration-none"><FontAwesomeIcon :icon="homeIcon" /> Back</router-link>
-                                                <div class="">
-                                                    <img class="" :src="jobDetails.companyLogo" alt="{{jobDetails.title}}">
+                                                <div>
+                                                    <img :src="jobDetails.companyLogo" alt="{{jobDetails.title}}">
                                                 </div>
-                                                <div class="row mt-5 align-items-center">
+                                                <div class="row align-items-center">
                                                     <div class="col">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-7">
                                                                 <h2 class="mb-1">{{jobDetails.title}}</h2>
                                                                 <p class="small mb-3">
-                                                                    <span v-for="industries in jobDetails.industries" :key="industries.id" class="badge badge-dark">{{industries}}</span>
+                                                                    <span v-for="industries in jobDetails.industries" :key="industries.id"  v-html="industries" class="badge bg-secondary ms-2"></span>
                                                                 </p>
                                                             </div>
                                                         </div>
                                                         <div class="row mb-4">
                                                             <div class="col-md-12">
-                                                                <div><b>publish date:-</b>{{ jobDetails.publishDate }}</div>
-                                                                <div><b>Location:-</b>{{ jobDetails.location }}</div>
-                                                                <div><b>Reference:-</b>{{ jobDetails.reference }}</div>
+                                                                <div><b>publish date:- </b>{{ format_date(jobDetails.publishDate) }}</div>
+                                                                <div><b>Location:- </b>{{ jobDetails.location }}</div>
+                                                                <div><b>Reference:- </b>{{ jobDetails.reference }}</div>
                                                                 <p class="text-muted" v-html="jobDetails.description">
                                                                     
                                                                 </p>
@@ -62,6 +62,7 @@ import axios from 'axios'
 import TabTitle from "../components/TabTitle.vue";
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import moment from 'moment';
 
 export default {
     props: ['id'],
@@ -81,6 +82,13 @@ export default {
         this.jobDetails = await axios.get('/jobs/' + mData).then((response) => {
             return response.data;
         })
+    },
+    methods: { 
+        format_date(value){
+            if (value) {
+                return moment(String(value)).format('M/DD/YY')
+            }
+        },
     },
 };
 </script>

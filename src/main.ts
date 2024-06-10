@@ -22,3 +22,4 @@ store.dispatch('fetchAllJobs').then(() => {
     app.use(store)
     app.mount('#app')
 });
+
