@@ -20,7 +20,7 @@
                 </div>
             </div>
         </td>
-        <td class="job-list-favourite-time text-center" v-if="$route.name == 'AllJobs'">
+        <td class="job-list-favourite-time text-center" v-if="$route.name == 'AllJobs' || $route.name == 'index'">
             <template v-if="isFavorited(props.job.id)">
                 <a class="job-list-favourite order-2 icon-star" :id="`star-${props.job.id}`"  @click="addToFav('remove',props.job.id)" href="javascript:void(0)">
                 <FontAwesomeIcon class="active my-fav" :icon="faFileSolid" />
