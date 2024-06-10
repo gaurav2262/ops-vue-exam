@@ -9,6 +9,7 @@ await worker.start()
 import App from './App.vue'
 import router from './router';
 import store from './store.js'
+import textbold from './directives/textbold';  // Adjust the path as needed
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -16,7 +17,9 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 /* add icons to the library */
 const app = createApp(App)
+app.directive('textbold', textbold);
 app.use(router)
+
 
 store.dispatch('fetchAllJobs').then(() => {
     app.use(store)

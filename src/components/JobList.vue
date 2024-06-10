@@ -9,12 +9,12 @@
                     <div class="">
                         <h5 class="mb-0">
                             <router-link :to="`/jobs-details/${props.job.id}`" class="job-title">{{props.job.title}}</router-link>
-                            </h5>
+                        </h5>
                     </div>
                     <div class="job-list-option">
                         <ul class="list-unstyled">
-                            <li>Company: {{props.job.companyName}}</li>
-                            <li>Reference: {{props.job.reference}}</li>
+                            <li v-textbold>Company: {{props.job.companyName}}</li>
+                            <li v-textbold>Reference: {{props.job.reference}}</li>
                         </ul>
                     </div>
                 </div>
