@@ -12,7 +12,7 @@
                                     <div class="table manage-job-top mb-0">
                                         <div class="container">
                                             <div class="my-4">
-                                                <router-link to="/all-jobs"  class="text-secondary text-decoration-none"><FontAwesomeIcon :icon="homeIcon" /> Back</router-link>
+                                                <router-link :to="backUrl"  class="text-secondary text-decoration-none"><FontAwesomeIcon :icon="homeIcon" /> Back</router-link>
                                                 <div>
                                                     <img :src="jobDetails.companyLogo" alt="{{jobDetails.title}}">
                                                 </div>
@@ -73,12 +73,14 @@ export default {
     data() {
         return {
             homeIcon: '',
+            backUrl: '',
             jobDetails: [],
         }
     },
     async mounted() {
         const mData = this.id;
         this.homeIcon = faHome;
+        this.backUrl = history.state.back == 'undefined' ? '/all-jobs/' : history.state.back;
         this.jobDetails = await axios.get('/jobs/' + mData).then((response) => {
             return response.data;
         })
